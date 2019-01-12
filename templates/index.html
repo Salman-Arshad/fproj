@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+{% block body %}
+    <h1>Homepage</h1>
+    {% from 'helper.html' import render_field %}
+    <form action="" method="POST">
+        <div class="form-group">
+            {{render_field(form.name,class_="form-control")}}
+        </div>
+        <div class="form-group">
+            {{render_field(form.date,class_="form-control",role="datepicker")}}
+        </div>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+{% endblock body %}
