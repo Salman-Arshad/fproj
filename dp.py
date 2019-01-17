@@ -9,6 +9,6 @@
 
 
 from datetime import datetime
-a=datetime.strptime("06-28-2018","%M-%d-%Y").date()
-b=datetime.strptime("06-27-2019","%M-%d-%Y").date()
-print(a-b)
+a=datetime.strptime("06-28-2018","%m-%d-%Y").date()
+b=datetime.strptime("06-27-2018","%m-%d-%Y").date()
+print(a>b)
