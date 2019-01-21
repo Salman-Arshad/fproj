@@ -1,12 +1,11 @@
 {% extends 'layout.html' %}
 {% block body %}
-    <h1>Your File is downloaded as <code>{{fileName}}</code></h1>
+    <h3>Enter Python Code below</h3>
     {% from 'helper.html' import render_field %}
     <form action="" method="POST">
         <div class="form-group">
             {{render_field(form.code,class_="form-control")}}
         </div>
-        
         <button class="btn btn-primary" type="submit">Submit</button>
     </form>
 {% endblock body %}

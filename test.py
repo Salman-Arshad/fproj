@@ -15,27 +15,32 @@
 
 
 
-import glob
-import pandas as pd
-import os
-path =r'hhh/' # use your path
-allFiles = glob.glob(path + "/*.csv")
+# import glob
+# import pandas as pd
+# import os
+# path =r'data/AMZN_2018-06-26_2018-07-30' # use your path
+# allFiles = glob.glob(path + "/*.csv")
 
-list_ = []
+# list_ = []
 
-for file_ in allFiles:
-    df = pd.read_csv(file_,index_col=None, header=0)
-    list_.append(df)
+# for file_ in allFiles:
+#     df = pd.read_csv(file_,index_col=None, header=0)
+#     list_.append(df)
 
-frame = pd.concat(list_, axis = 0, ignore_index = True)
-for item in list(frame):
-    print(item)
-f = pd.read_csv("file.csv")
-d = f['seq'].tolist()
-print(d[0])
+# frame = pd.concat(list_, axis = 0, ignore_index = True)
+# print(len(frame))
+# print(frame)
 
 
-
+# import pandas as pd
+# frame = pd.read_csv("file.csv")
+# print(list(frame))
+# f = open("config.py",'w')
+# for i in list(frame):
+#     line = i+"=frame['"+i+"'].tolist()"
+#     print(line ,file=f)
+open = 7
+print(open)
 
 
 
