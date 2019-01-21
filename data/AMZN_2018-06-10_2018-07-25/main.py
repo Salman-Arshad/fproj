@@ -2,13 +2,20 @@
 import pandas as pd
 import pandas as pd
 import os
+# for i,j,y in os.walk('.'):
+#     print(y)
+files = [f for f in os.listdir('.') if os.path.isfile(f)]
+for f in files:
+    print(f)
 import glob
-allFiles = glob.glob("*.csv")
+allFiles = glob.glob(".//data/AMZN_2018-06-10_2018-07-25/*.csv")
 list_ = []
 for file_ in allFiles:
     df = pd.read_csv(file_,index_col=None, header=0)
     list_.append(df)
 frame = pd.concat(list_, axis = 0, ignore_index = True)
+print(len(frame))
+
 
 rosbagTimestamp=frame['rosbagTimestamp'].tolist()
 header=frame['header'].tolist()

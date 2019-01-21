@@ -1,4 +1,15 @@
-vars ="""
+
+import pandas as pd
+import pandas as pd
+import os
+import glob
+allFiles = glob.glob("/data/AMZN_2018-06-10_2018-07-25/*.csv")
+list_ = []
+for file_ in allFiles:
+    df = pd.read_csv(file_,index_col=None, header=0)
+    list_.append(df)
+frame = pd.concat(list_, axis = 0, ignore_index = True)
+
 rosbagTimestamp=frame['rosbagTimestamp'].tolist()
 header=frame['header'].tolist()
 seq=frame['seq'].tolist()
@@ -43,5 +54,3 @@ expense_ratio_net=frame['expense_ratio_net'].tolist()
 inception_date=frame['inception_date'].tolist()
 print(ticker)
 print(len(ticker))
-"""
-

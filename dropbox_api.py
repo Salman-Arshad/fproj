@@ -57,36 +57,46 @@ def downloadTickerData(ticker, fromDate, toDate):
 
 
 def execCode(code, path):
-    # f = open("data/"+path+"/"+"main.py", 'w')
+
+    f = open("data/"+path+"/"+"main.py", 'w')
     # code = code.split("\n")
     # code = code = ''.join(code)
-    # writeInit(f, path)
-    path = "data/"+path+"/main.py"
-    print(path)
-    # f = open(path)
+    writeInit(f, path)
+    path2 = "data/"+path+"/main.py"
+    f = open(path2)
     # print(f.read())
     abc = open("abc.txt","w")
-    test = Popen(['python',path],stdout = abc)
-    # print(test.stdout.readlines())
-    
-    # return subprocess.check_output(['python',path])
-    return "kgghj"
-    
+    test = Popen(['python',path2],stdout=PIPE, stderr=PIPE)
+    output = test.communicate()[0].decode("utf-8")
+    error = test.communicate()[1].decode("utf-8")
+    print(error)
 
+
+    # return subprocess.check_output(['python',path])
+    return str(error)+str(output)
 
 
 def writeInit(file, path):
+  
+    path = "/data/"+path
+    print(path)
     data = """
 import pandas as pd
 import pandas as pd
 import os
+# for i,j,y in os.walk('.'):
+#     print(y)
+files = [f for f in os.listdir('.') if os.path.isfile(f)]
+for f in files:
+    print(f)
 import glob
-allFiles = glob.glob("*.csv")
+allFiles = glob.glob("./{path}/*.csv")
 list_ = []
 for file_ in allFiles:
     df = pd.read_csv(file_,index_col=None, header=0)
     list_.append(df)
 frame = pd.concat(list_, axis = 0, ignore_index = True)
+print(len(frame))
 
 """
     context = {
@@ -94,4 +104,4 @@ frame = pd.concat(list_, axis = 0, ignore_index = True)
     }
     file.write(data.format(**context))
     file.write(config.vars)
-    return
+    
