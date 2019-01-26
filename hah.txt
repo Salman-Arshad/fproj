@@ -1,0 +1,1 @@
+sell=[]l = len(secs)for i in range(0,l):    if current_price[i]>1600 and gain_loss_currency[i]>0:        sell.append(current_price[i])print(len(sell))   

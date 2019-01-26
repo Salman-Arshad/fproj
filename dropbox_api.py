@@ -59,9 +59,13 @@ def downloadTickerData(ticker, fromDate, toDate):
 def execCode(code, path):
 
     f = open("data/"+path+"/"+"main.py", 'w')
-    # code = code.split("\n")
-    # code = code = ''.join(code)
+    code = code.split("\n")
+    code = code = ''.join(code)
+    fp = open("hah.txt","w")
+    fp.write(code)
     writeInit(f, path)
+    f.write(code)
+
     path2 = "data/"+path+"/main.py"
     f = open(path2)
     # print(f.read())
@@ -70,10 +74,7 @@ def execCode(code, path):
     output = test.communicate()[0].decode("utf-8")
     error = test.communicate()[1].decode("utf-8")
     print(error)
-
-
-    # return subprocess.check_output(['python',path])
-    return str(error)+str(output)
+    return str(output)+str(error)
 
 
 def writeInit(file, path):
@@ -84,11 +85,7 @@ def writeInit(file, path):
 import pandas as pd
 import pandas as pd
 import os
-# for i,j,y in os.walk('.'):
-#     print(y)
-files = [f for f in os.listdir('.') if os.path.isfile(f)]
-for f in files:
-    print(f)
+
 import glob
 allFiles = glob.glob("./{path}/*.csv")
 list_ = []
@@ -96,7 +93,6 @@ for file_ in allFiles:
     df = pd.read_csv(file_,index_col=None, header=0)
     list_.append(df)
 frame = pd.concat(list_, axis = 0, ignore_index = True)
-print(len(frame))
 
 """
     context = {
@@ -105,3 +101,5 @@ print(len(frame))
     file.write(data.format(**context))
     file.write(config.vars)
     
+
+
