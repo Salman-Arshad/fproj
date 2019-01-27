@@ -23,27 +23,52 @@ class Code(Form):
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
-    form = inputForm(request.form)
-    if request.method == 'POST' and form.validate():
-        ticker = request.form['name']
-        toDate = request.form['toDate']
-        fromDate = request.form['fromDate']
-       # print(fromDate, toDate)
-        res = dropbox_api.downloadTickerData(ticker,fromDate, toDate)
-        if res is True:
-            return redirect(url_for("editor",range = ""+str(ticker)+'_'+str(datetime.strptime(fromDate, "%Y-%m-%d").date()))+'_'+str(datetime.strptime(toDate, "%Y-%m-%d").date()))
+    # form = inputForm(request.form)
+    # if request.method == 'POST' and form.validate():
+    #     ticker = request.form['name']
+    #     toDate = request.form['toDate']
+    #     fromDate = request.form['fromDate']
+    #    # print(fromDate, toDate)
+    #     res = dropbox_api.downloadTickerData(ticker,fromDate, toDate)
+    #     if res is True:
+    #         return redirect(url_for("editor",range = ""+str(ticker)+'_'+str(datetime.strptime(fromDate, "%Y-%m-%d").date()))+'_'+str(datetime.strptime(toDate, "%Y-%m-%d").date()))
+    return redirect(url_for('editor',range="index"))
 
 
-    return render_template("index.html", form=form)
 
 
 @app.route('/<range>', methods=["GET", 'POST'])
 def editor(range):
-    if request.method =="POST":
-        res = dropbox_api.execCode(request.form['code'],range)
-        return res
-    form = Code(request.form)
-    return render_template("interpreter.html", form=form,range = range)
+    b=[]
+    dis = ""
+    if range == "index":
+        dis = "disabled"
+    # if request.method =="POST":
+    #     res = dropbox_api.execCode(request.form['code'],range)
+    #     return res
+    # if range == "index":
+    #     dis = "disabled"
+    if request.method=='POST':
+        if request.form['ref'] =='ticker':
+            ticker = request.form['name']
+            toDate = request.form['toDate']
+            fromDate = request.form['fromDate']
+            # print(fromDate, toDate)
+            res = dropbox_api.downloadTickerData(ticker,fromDate, toDate)
+            if res is True:
+                return redirect(url_for("editor",range = ""+str(ticker)+'_'+str(datetime.strptime(fromDate, "%Y-%m-%d").date()))+'_'+str(datetime.strptime(toDate, "%Y-%m-%d").date()))
+    if range !="index":
+        b=range.split("_")
+        print("here")
+        formCode = Code(request.form)
+        formInput = inputForm(request.form)
+        formInput.fromDate.data = datetime.strptime(b[1],"%Y-%m-%d")
+        formInput.toDate.data = datetime.strptime(b[2],"%Y-%m-%d")
+        formInput.name.data = b[0]
+        return render_template("interpreter.html", formCode=formCode,range = range,formInput=formInput,dis=dis)
+    formCode = Code(request.form)
+    formInput = inputForm(request.form)
+    return render_template("interpreter.html", formCode=formCode,range = range,formInput=formInput,dis=dis)
 
 
 if __name__ == "__main__":

@@ -1,23 +1,41 @@
 {% extends 'layout.html' %} {% block body %}
-<h3>Enter Python Code below</h3>
+<h1>Homepage</h1>
 {% from 'helper.html' import render_field %}
-<script src="{{url_for('static',filename='script.js')}}"></script>
-<form action="" method="POST">
+<form action="" method="POST" id="formInput">
     <div class="form-group">
-        {{render_field(form.code,class_="form-control",rows=10)}}
+        {{render_field(formInput.name,class_="form-control")}}
     </div>
-
-    <button class="btn btn-primary" type="button">Run</button>
+    <div class="form-group">
+        {{render_field(formInput.fromDate,class_="form-control",role="datepicker")}}
+    </div>
+    <div class="form-group">
+        {{render_field(formInput.toDate,class_="form-control",role="datepicker")}}
+    </div>
+    <div class="form-group">
+        <input type="hidden" name="ref" value="ticker" />
+    </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+</form>
+<h3>Enter Python Code below</h3>
+<script src="{{url_for('static',filename='script.js')}}"></script>
+<form action="" method="POST" id="formCode">
+    <div class="form-group">
+        {{render_field(formCode.code,class_="form-control",id="pycode",rows=10)}}
+    </div>
+    <div class="form-group">
+        <input type="hidden" name="ref" value="code" id="ref" />
+    </div>
+    <button class="btn btn-primary" type="button" id="code" {{dis}}>Run</button>
 </form>
 <div class="row mt-3">
     <div class="col-md-6">
-            <label for="">Output</label>
-            <textarea name="" id="" cols="70" rows="10"></textarea>
+        <label for="">Output</label>
+        <textarea name="" id="" cols="70" rows="10"></textarea>
     </div>
     <div class="col-md-6">
-            <label for="">error</label>
-            <textarea name="" id="" cols="70" rows="10"></textarea>
+        <label for="">error</label>
+        <textarea name="" id="" cols="70" rows="10"></textarea>
     </div>
 </div>
-<img src="{{url_for('static',filename='img.jpg')}}?v=5" alt="">
-{% endblock body %}
+<img src="{{url_for('static',filename='img.jpg')}}?v=5" alt="" /> {% endblock
+body %}
