@@ -56,16 +56,23 @@ def downloadTickerData(ticker, fromDate, toDate):
     return True
 
 
-def execCode(code, path):
-
+def execCode(code,invest,fee, path):
     f = open("data/"+path+"/"+"main.py", 'w')
-    code = code.split("\n")
-    code = code = ''.join(code)
-    fp = open("hah.txt","w")
-    fp.write(code)
-    writeInit(f, path)
-    f.write(code)
+    # code = code.split("\n")
+    # code = code = ''.join(code)
+    print(code)
 
+    writeInit(f, path)
+    xx = """
+invest = {invest}
+fee = {fee}
+"""
+    context={
+        "invest":invest,
+        "fee":fee
+    }
+    f.write(xx.format(**context))
+    f.write(code)
     path2 = "data/"+path+"/main.py"
     f = open(path2)
     # print(f.read())
@@ -74,7 +81,7 @@ def execCode(code, path):
     output = test.communicate()[0].decode("utf-8")
     error = test.communicate()[1].decode("utf-8")
     print(error)
-    return str(output)+str(error)
+    return str(error),str(output)
 
 
 def writeInit(file, path):

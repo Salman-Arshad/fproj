@@ -11,14 +11,23 @@
     <div class="form-group">
         {{render_field(formInput.toDate,class_="form-control",role="datepicker")}}
     </div>
+
     <div class="form-group">
         <input type="hidden" name="ref" value="ticker" />
     </div>
     <button class="btn btn-primary" type="submit">Submit</button>
 </form>
-<h3>Enter Python Code below</h3>
+   
+
 <script src="{{url_for('static',filename='script.js')}}"></script>
 <form action="" method="POST" id="formCode">
+        <div class="form-group">
+                {{render_field(formCode.invest,class_="form-control")}}
+            </div>
+            <div class="form-group">
+                {{render_field(formCode.fee,class_="form-control")}}
+            </div>
+    <h3>Enter Python Code below</h3>
     <div class="form-group">
         {{render_field(formCode.code,class_="form-control",id="pycode",rows=10)}}
     </div>
@@ -30,11 +39,11 @@
 <div class="row mt-3">
     <div class="col-md-6">
         <label for="">Output</label>
-        <textarea name="" id="" cols="70" rows="10"></textarea>
+        <textarea name="" id="out" cols="70" rows="10"></textarea>
     </div>
     <div class="col-md-6">
         <label for="">error</label>
-        <textarea name="" id="" cols="70" rows="10"></textarea>
+        <textarea name="" id="err" cols="70" rows="10"></textarea>
     </div>
 </div>
 <img src="{{url_for('static',filename='img.jpg')}}?v=5" alt="" /> {% endblock

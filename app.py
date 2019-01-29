@@ -9,7 +9,7 @@ log.setLevel(logging.ERROR)
 from django.http import HttpResponse
 app = Flask(__name__)
 app.debug = True
-
+import json
 
 class inputForm(Form):
     name = StringField('name of the Ticker')
@@ -17,8 +17,11 @@ class inputForm(Form):
     toDate = DateField('To date', format="%Y-%m-%d")
 
 
+
 class Code(Form):
     code = TextAreaField("Enter Python Code here ")
+    invest = StringField("Invest Amount")
+    fee = StringField("Fees Amount")
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -57,6 +60,14 @@ def editor(range):
             res = dropbox_api.downloadTickerData(ticker,fromDate, toDate)
             if res is True:
                 return redirect(url_for("editor",range = ""+str(ticker)+'_'+str(datetime.strptime(fromDate, "%Y-%m-%d").date()))+'_'+str(datetime.strptime(toDate, "%Y-%m-%d").date()))
+        if request.form['ref']=="code":
+            print("hmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm")
+            error,output = dropbox_api.execCode(request.form['code'],request.form['invest'],request.form['fee'],range)
+            res = {
+                "output":output,
+                "error":error
+            }
+            return json.dumps(res).encode("utf-8")
     if range !="index":
         b=range.split("_")
         print("here")
