@@ -41,6 +41,8 @@ ytd_return=frame['ytd_return'].tolist()
 beta_3y=frame['beta_3y'].tolist()
 expense_ratio_net=frame['expense_ratio_net'].tolist()
 inception_date=frame['inception_date'].tolist()
+buy=[]
+sell=[]
 
 
 """

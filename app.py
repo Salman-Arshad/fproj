@@ -65,7 +65,8 @@ def editor(range):
             error,output = dropbox_api.execCode(request.form['code'],request.form['invest'],request.form['fee'],range)
             res = {
                 "output":output,
-                "error":error
+                "error":error,
+                "range":range
             }
             return json.dumps(res).encode("utf-8")
     if range !="index":

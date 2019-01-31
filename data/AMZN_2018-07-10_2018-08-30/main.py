@@ -2,19 +2,14 @@
 import pandas as pd
 import pandas as pd
 import os
-# for i,j,y in os.walk('.'):
-#     print(y)
-files = [f for f in os.listdir('.') if os.path.isfile(f)]
-for f in files:
-    print(f)
+
 import glob
-allFiles = glob.glob(".//data/AMZN_2018-06-10_2018-07-25/*.csv")
+allFiles = glob.glob(".//data/AMZN_2018-07-10_2018-08-30/*.csv")
 list_ = []
 for file_ in allFiles:
     df = pd.read_csv(file_,index_col=None, header=0)
     list_.append(df)
 frame = pd.concat(list_, axis = 0, ignore_index = True)
-print(len(frame))
 
 
 rosbagTimestamp=frame['rosbagTimestamp'].tolist()
@@ -59,5 +54,33 @@ ytd_return=frame['ytd_return'].tolist()
 beta_3y=frame['beta_3y'].tolist()
 expense_ratio_net=frame['expense_ratio_net'].tolist()
 inception_date=frame['inception_date'].tolist()
-print(current_price)
-print(len(current_price))
+buy=[]
+sell=[]
+
+
+
+invest = 12
+fee = 33
+length = len(current_price)
+for i in range(0,length):
+    if gain_loss_percent[i]>0.12 and current_price[i] >1700:
+        sell.append(current_price[i])
+print(sell)
+
+
+length = len(current_price)
+for i in range(0,length):
+    if gain_loss_percent[i]>1 and current_price[i] >1700:
+        buy.append(current_price[i])
+print(buy)
+from matplotlib import pyplot as plt
+import numpy as np
+current_price2 = np.array(current_price)
+index2 = np.array(frame.index.values)
+idsb = np.nonzero(np.in1d(current_price2, buy))[0]
+idss = np.nonzero(np.in1d(current_price2, sell))[0]
+fig, ax = plt.subplots( nrows=1, ncols=1 )
+ax.plot(index2,current_price2)
+ax.scatter(frame.index.values[idss],current_price2[idss],color='green')
+ax.scatter(frame.index.values[idsb],current_price2[idsb],color='red')
+fig.savefig("static/AMZN_2018-07-10_2018-08-30.png")

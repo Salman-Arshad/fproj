@@ -73,8 +73,9 @@ fee = {fee}
     }
     f.write(xx.format(**context))
     f.write(code)
+    graph(f,path)
     path2 = "data/"+path+"/main.py"
-    f = open(path2)
+    f = open(path2) 
     # print(f.read())
     abc = open("abc.txt","w")
     test = Popen(['python',path2],stdout=PIPE, stderr=PIPE)
@@ -107,6 +108,24 @@ frame = pd.concat(list_, axis = 0, ignore_index = True)
     }
     file.write(data.format(**context))
     file.write(config.vars)
-    
+
+def graph(f,path):
+    data = """
+from matplotlib import pyplot as plt
+import numpy as np
+current_price2 = np.array(current_price)
+index2 = np.array(frame.index.values)
+idsb = np.nonzero(np.in1d(current_price2, buy))[0]
+idss = np.nonzero(np.in1d(current_price2, sell))[0]
+fig, ax = plt.subplots( nrows=1, ncols=1 )
+ax.plot(index2,current_price2)
+ax.scatter(frame.index.values[idss],current_price2[idss],color='green')
+ax.scatter(frame.index.values[idsb],current_price2[idsb],color='red')
+fig.savefig("static/{path}.png")
+"""
+    context= {
+        "path":path
+    }
+    f.write(data.format(**context))
 
 
